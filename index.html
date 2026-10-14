@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الجودة للسيراميك - إدارة المتجر</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f8f8;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            border: 2px solid #d4a574;
+            background: white;
+            color: #8b7355;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #d4a574;
+            color: white;
+        }
+
+        .tab-btn:hover {
+            background: #d4a574;
+            color: white;
+        }
+
+        header {
+            background: linear-gradient(135deg, #d4a574 0%, #b8956a 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .contact-header {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .phone-number {
+            font-size: 1.2em;
+            font-weight: bold;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        h2 {
+            color: #8b7355;
+            font-size: 2em;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #d4a574;
+            padding-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #8b7355;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d4a574;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+            font-size: 1em;
+            color: #333;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="file"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #8b7355;
+            box-shadow: 0 0 5px rgba(139, 115, 85, 0.3);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #d4a574;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #b8956a;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-edit {
+            background: #3498db;
+            color: white;
+            padding: 8px 16px;
+            font-size: 0.9em;
+        }
+
+        .btn-edit:hover {
+            background: #2980b9;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border: 2px solid #d4a574;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(212, 165, 116, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-name {
+            color: #d4a574;
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+        }
+
+        .product-details {
+            background: #f5f5f5;
+            padding: 12px;
+            border-radius: 5px;
+            margin: 10px 0;
+            text-align: right;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 5px 0;
+            font-size: 0.95em;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #8b7355;
+        }
+
+        .detail-value {
+            color: #333;
+        }
+
+        .price {
+            font-size: 1.4em;
+            color: #e74c3c;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stock-status {
+            padding: 8px 12px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .in-stock {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .out-of-stock {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-edit,
+        .btn-danger {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.9em;
+        }
+
+        .admin-section {
+            background: #fef9f3;
+            padding: 20px;
+            border-radius: 10px;
+            border-right: 4px solid #d4a574;
+            margin-bottom: 30px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            overflow: auto;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: left;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 2px solid #d4a574;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                width: 100%;
+            }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        #loginScreen {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        #adminUsername,
+        #adminPassword {
+            text-align: right;
+        }
+
+        .logout-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #fef9f3;
+            border-radius: 10px;
+            border-right: 4px solid #d4a574;
+        }
+
+        .logged-in-info {
+            color: #8b7355;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>🏠 الجودة للسيراميك</h1>
+            <p class="contact-header">إدارة المتجر الإلكتروني</p>
+            <div class="phone-number">📞 0116795151</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- شاشة التسجيل -->
+        <div id="loginScreen" class="tab-content active" style="max-width: 500px; margin: 50px auto;">
+            <h2 style="text-align: center;">تسجيل دخول المشرف</h2>
+            <div style="background: #fef9f3; padding: 30px; border-radius: 10px; border-right: 4px solid #d4a574;">
+                <div class="form-group">
+                    <label for="adminUsername">اسم المستخدم</label>
+                    <input type="text" id="adminUsername" placeholder="اسم المشرف">
+                </div>
+                <div class="form-group">
+                    <label for="adminPassword">كلمة المرور</label>
+                    <input type="password" id="adminPassword" placeholder="أدخل كلمة المرور">
+                </div>
+                <button class="btn btn-primary" onclick="adminLogin()" style="width: 100%; padding: 15px; font-size: 1.1em;">تسجيل الدخول</button>
+                <p style="text-align: center; margin-top: 20px; color: #666; font-size: 0.9em;">
+                    اسم المستخدم الافتراضي: <strong>admin</strong><br>
+                    كلمة المرور الافتراضية: <strong>123456</strong>
+                </p>
+                <div id="loginError" style="color: #e74c3c; margin-top: 15px; display: none; text-align: center;"></div>
+            </div>
+        </div>
+
+        <!-- واجهة المتجر والإدارة -->
+        <div id="appContainer" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div class="tab-buttons">
+                    <button class="tab-btn active" onclick="switchTab('store')">عرض المتجر</button>
+                    <button class="tab-btn" id="adminTabBtn" onclick="switchTab('admin')">إدارة المنتجات</button>
+                </div>
+                <button class="btn btn-danger" onclick="adminLogout()">تسجيل الخروج</button>
+            </div>
+
+        <!-- عرض المتجر -->
+        <div id="store" class="tab-content active">
+            <h2>منتجاتنا</h2>
+            <div id="storeProducts" class="products-grid"></div>
+            <div id="emptyStore" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">📦</div>
+                <h3>لم تتم إضافة منتجات بعد</h3>
+                <p>يرجى إضافة المنتجات من لوحة الإدارة</p>
+            </div>
+        </div>
+
+        <!-- لوحة الإدارة -->
+        <div id="admin" class="tab-content">
+            <h2>إدارة المنتجات</h2>
+            
+            <div class="admin-section">
+                <div class="success-message" id="successMsg">✓ تم العملية بنجاح!</div>
+                
+                <h3 style="color: #8b7355; margin-bottom: 20px;">إضافة منتج جديد</h3>
+                
+                <div class="form-group">
+                    <label for="productName">اسم المنتج *</label>
+                    <input type="text" id="productName" placeholder="مثال: سيراميك فينيسيا أرضي">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productType">نوع المنتج *</label>
+                        <select id="productType">
+                            <option value="">اختر النوع</option>
+                            <option value="سيراميك">سيراميك</option>
+                            <option value="بورسلين">بورسلين</option>
+                            <option value="أبواب">أبواب</option>
+                            <option value="أسقف مستعارة">أسقف مستعارة</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productSize">الحجم/المقاس *</label>
+                        <input type="text" id="productSize" placeholder="مثال: 50×50 سم">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productPrice">السعر (جنيه سوداني) *</label>
+                        <input type="number" id="productPrice" placeholder="0" min="0" step="0.01">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="productQuantity">الكمية في المخزن *</label>
+                        <input type="number" id="productQuantity" placeholder="0" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">الوصف</label>
+                    <textarea id="productDescription" placeholder="وصف المنتج والمميزات..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="productImage">صورة المنتج</label>
+                    <input type="file" id="productImage" accept="image/*">
+                    <div id="imagePreviewContainer"></div>
+                </div>
+
+                <button class="btn btn-primary" onclick="addProduct()">إضافة المنتج</button>
+            </div>
+
+            <h3 style="color: #8b7355; margin-top: 40px; margin-bottom: 20px;">المنتجات المضافة</h3>
+            <div id="adminProducts" class="products-grid"></div>
+            <div id="emptyAdmin" class="empty-state" style="display: none;">
+                <div class="empty-state-icon">📋</div>
+                <h3>لا توجد منتجات</h3>
+                <p>أضف منتجك الأول باستخدام النموذج أعلاه</p>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal للتعديل -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeEditModal()">&times;</span>
+            <h2 style="color: #8b7355; margin-bottom: 20px;">تعديل المنتج</h2>
+            
+            <div class="form-group">
+                <label for="editProductName">اسم المنتج</label>
+                <input type="text" id="editProductName">
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editProductType">نوع المنتج</label>
+                    <select id="editProductType">
+                        <option value="سيراميك">سيراميك</option>
+                        <option value="بورسلين">بورسلين</option>
+                        <option value="أبواب">أبواب</option>
+                        <option value="أسقف مستعارة">أسقف مستعارة</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editProductSize">الحجم/المقاس</label>
+                    <input type="text" id="editProductSize">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="editProductPrice">السعر</label>
+                    <input type="number" id="editProductPrice" min="0" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="editProductQuantity">الكمية</label>
+                    <input type="number" id="editProductQuantity" min="0">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="editProductDescription">الوصف</label>
+                <textarea id="editProductDescription"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="editProductImage">تغيير الصورة</label>
+                <input type="file" id="editProductImage" accept="image/*">
+                <div id="editImagePreviewContainer"></div>
+            </div>
+
+            <button class="btn btn-primary" onclick="saveEdit()">حفظ التعديلات</button>
+        </div>
+    </div>
+
+    <script>
+        let products = [];
+        let editingId = null;
+        let isLoggedIn = false;
+
+        // بيانات المشرف الافتراضية (يمكن تغييرها)
+        const adminCredentials = {
+            username: 'admin',
+            password: '123456'
+        };
+
+        // تسجيل الدخول
+        function adminLogin() {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            const errorDiv = document.getElementById('loginError');
+
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                isLoggedIn = true;
+                localStorage.setItem('aljouda_admin_logged_in', 'true');
+                showAdminPanel();
+                errorDiv.style.display = 'none';
+                document.getElementById('adminUsername').value = '';
+                document.getElementById('adminPassword').value = '';
+            } else {
+                errorDiv.style.display = 'block';
+                errorDiv.textContent = '❌ اسم المستخدم أو كلمة المرور غير صحيحة';
+            }
+        }
+
+        // تسجيل الخروج
+        function adminLogout() {
+            if (confirm('هل تريد تسجيل الخروج؟')) {
+                isLoggedIn = false;
+                localStorage.removeItem('aljouda_admin_logged_in');
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('appContainer').style.display = 'none';
+                switchTab('store');
+            }
+        }
+
+        // عرض لوحة الإدارة
+        function showAdminPanel() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appContainer').style.display = 'block';
+        }
+
+        // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
+        function checkLoginStatus() {
+            const logged = localStorage.getItem('aljouda_admin_logged_in');
+            if (logged === 'true') {
+                isLoggedIn = true;
+                showAdminPanel();
+            } else {
+                isLoggedIn = false;
+                document.getElementById('loginScreen').style.display = 'block';
+                document.getElementById('appContainer').style.display = 'none';
+            }
+        }
+
+        // تحميل البيانات من localStorage
+        function loadProducts() {
+            const saved = localStorage.getItem('aljouda_products');
+            if (saved) {
+                products = JSON.parse(saved);
+            }
+        }
+
+        // حفظ البيانات في localStorage
+        function saveProducts() {
+            localStorage.setItem('aljouda_products', JSON.stringify(products));
+        }
+
+        // التبديل بين التابات
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'store') {
+                displayStoreProducts();
+            } else {
+                displayAdminProducts();
+            }
+        }
+
+        // معاينة الصورة
+        document.getElementById('productImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = `<img src="${event.target.result}" class="image-preview" style="margin-top: 10px;">`;
+                    document.getElementById('imagePreviewContainer').innerHTML = preview;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('editProductImage').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const preview = `<img src="${event.target.result}" class="image-preview" style="margin-top: 10px;">`;
+                    document.getElementById('editImagePreviewContainer').innerHTML = preview;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // إضافة منتج جديد
+        function addProduct() {
+            const name = document.getElementById('productName').value;
+            const type = document.getElementById('productType').value;
+            const size = document.getElementById('productSize').value;
+            const price = parseFloat(document.getElementById('productPrice').value);
+            const quantity = parseInt(document.getElementById('productQuantity').value);
+            const description = document.getElementById('productDescription').value;
+            const imageFile = document.getElementById('productImage').files[0];
+
+            if (!name || !type || !size || !price || quantity === '') {
+                alert('يرجى ملء جميع الحقول المطلوبة');
+                return;
+            }
+
+            if (!imageFile) {
+                alert('يرجى اختيار صورة للمنتج');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const product = {
+                    id: Date.now(),
+                    name,
+                    type,
+                    size,
+                    price,
+                    quantity,
+                    description,
+                    image: event.target.result
+                };
+
+                products.push(product);
+                saveProducts();
+
+                // إعادة تعيين النموذج
+                document.getElementById('productName').value = '';
+                document.getElementById('productType').value = '';
+                document.getElementById('productSize').value = '';
+                document.getElementById('productPrice').value = '';
+                document.getElementById('productQuantity').value = '';
+                document.getElementById('productDescription').value = '';
+                document.getElementById('productImage').value = '';
+                document.getElementById('imagePreviewContainer').innerHTML = '';
+
+                // عرض رسالة النجاح
+                const msg = document.getElementById('successMsg');
+                msg.classList.add('show');
+                setTimeout(() => msg.classList.remove('show'), 3000);
+
+                displayAdminProducts();
+            };
+            reader.readAsDataURL(imageFile);
+        }
+
+        // عرض منتجات المتجر
+        function displayStoreProducts() {
+            const container = document.getElementById('storeProducts');
+            const empty = document.getElementById('emptyStore');
+
+            if (products.length === 0) {
+                container.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'grid';
+            empty.style.display = 'none';
+
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-description">${product.description || 'منتج ذو جودة عالية'}</div>
+                        <div class="product-details">
+                            <div class="detail-row">
+                                <span class="detail-label">النوع:</span>
+                                <span class="detail-value">${product.type}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">المقاس:</span>
+                                <span class="detail-value">${product.size}</span>
+                            </div>
+                        </div>
+                        <div class="price">السعر: ${product.price.toFixed(2)} ج.س</div>
+                        <div class="stock-status ${product.quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                            ${product.quantity > 0 ? `متوفر (${product.quantity})` : 'غير متوفر'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // عرض منتجات الإدارة
+        function displayAdminProducts() {
+            const container = document.getElementById('adminProducts');
+            const empty = document.getElementById('emptyAdmin');
+
+            if (products.length === 0) {
+                container.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'grid';
+            empty.style.display = 'none';
+
+            container.innerHTML = products.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" class="product-image">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-details">
+                            <div class="detail-row">
+                                <span class="detail-label">النوع:</span>
+                                <span class="detail-value">${product.type}</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">المقاس:</span>
+                                <span class="detail-value">${product.size}</span>
+                            </div>
+                        </div>
+                        <div class="price">${product.price.toFixed(2)} ج.س</div>
+                        <div class="stock-status ${product.quantity > 0 ? 'in-stock' : 'out-of-stock'}">
+                            المخزون: ${product.quantity}
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-edit" onclick="openEditModal(${product.id})">تعديل</button>
+                            <button class="btn btn-danger" onclick="deleteProduct(${product.id})">حذف</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // فتح نافذة التعديل
+        function openEditModal(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            editingId = id;
+            document.getElementById('editProductName').value = product.name;
+            document.getElementById('editProductType').value = product.type;
+            document.getElementById('editProductSize').value = product.size;
+            document.getElementById('editProductPrice').value = product.price;
+            document.getElementById('editProductQuantity').value = product.quantity;
+            document.getElementById('editProductDescription').value = product.description;
+            document.getElementById('editImagePreviewContainer').innerHTML = `<img src="${product.image}" class="image-preview">`;
+            document.getElementById('editProductImage').value = '';
+
+            document.getElementById('editModal').classList.add('active');
+        }
+
+        // إغلاق نافذة التعديل
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+            editingId = null;
+        }
+
+        // حفظ التعديلات
+        function saveEdit() {
+            if (editingId === null) return;
+
+            const product = products.find(p => p.id === editingId);
+            product.name = document.getElementById('editProductName').value;
+            product.type = document.getElementById('editProductType').value;
+            product.size = document.getElementById('editProductSize').value;
+            product.price = parseFloat(document.getElementById('editProductPrice').value);
+            product.quantity = parseInt(document.getElementById('editProductQuantity').value);
+            product.description = document.getElementById('editProductDescription').value;
+
+            const imageFile = document.getElementById('editProductImage').files[0];
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    product.image = event.target.result;
+                    saveProducts();
+                    displayAdminProducts();
+                    closeEditModal();
+                    showSuccessMessage();
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveProducts();
+                displayAdminProducts();
+                closeEditModal();
+                showSuccessMessage();
+            }
+        }
+
+        // حذف منتج
+        function deleteProduct(id) {
+            if (confirm('هل أنت متأكد من حذف هذا المنتج؟')) {
+                products = products.filter(p => p.id !== id);
+                saveProducts();
+                displayAdminProducts();
+                showSuccessMessage();
+            }
+        }
+
+        // عرض رسالة النجاح
+        function showSuccessMessage() {
+            const msg = document.getElementById('successMsg');
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+        }
+
+        // إغلاق النافذة عند الضغط خارجها
+        window.onclick = function(event) {
+            const modal = document.getElementById('editModal');
+            if (event.target === modal) {
+                closeEditModal();
+            }
+        }
+
+        // تحميل البيانات عند فتح الصفحة
+        loadProducts();
+        checkLoginStatus();
+        displayStoreProducts();
+
+        // السماح بتسجيل الدخول باستخدام مفتاح Enter
+        document.getElementById('adminPassword').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                adminLogin();
+            }
+        });
+    </script>
+</body>
+</html>
